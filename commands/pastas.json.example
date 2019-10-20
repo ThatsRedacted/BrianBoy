@@ -1,0 +1,8 @@
+{"pasta":[
+//ID Duh
+    {"id":1,
+//What will Brian look for after prefix
+    "command":"example",
+//What message will he send
+    "fulltext":"This is example command and that's how you create it.\nNew pasta in /commands/pastas.json needs id, command and fulltext.\nGood luck."}
+  ]}

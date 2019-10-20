@@ -1,0 +1,10 @@
+{"include":[
+//ID, duh
+  {"id":1,
+//What will Brian look for in message
+  "what":"example",
+//What will Brian answer for that
+  "answer":"Example answer",
+//What's chance for this
+  "chance":100}
+]}
