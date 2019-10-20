@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const TextCommand = require("./commands.js")
-const config = require("./config.json")
+const TextCommand = require("./modules/commands.js")
+const config = require(".//configs/config.json")
 
 function help(array, message){
 	let string = "";
