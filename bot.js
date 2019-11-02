@@ -42,10 +42,11 @@ function generateImplying(message, flag){
 
 //Function responsible for saying shit
 function talkWithMe(message, shit, flag){
-	if (message.content.includes(shit) && !(message.author.bot) && flag == false){
-		talk = message.content.substring(message.content.indexOf(shit)+1,message.content.length).split(" ",2);
+	if (message.content.toLowerCase().includes(shit) && !(message.author.bot) && flag == false){
+		talk = message.content.split(shit,2);
+		actualmessage = talk[1].substring(talk[1].indexOf(" "),talk[1].length);
 		//console.log(talk[1]);
-		message.channel.send(talk[1]);
+		message.channel.send(actualmessage);
 		return true;
 	}
 	else{
