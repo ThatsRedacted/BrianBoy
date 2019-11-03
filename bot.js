@@ -56,7 +56,7 @@ function generateImplying(message, flag){
 
 //Function responsible for saying shit
 function talkWithMe(message, shit, flag){
-	if (message.content.includes(shit) && !(message.author.bot) && flag == false){
+	if (message.content.includes(shit) && !(message.author.bot) && flag == false && message.content.startsWith(prefix) == false){
 		talk = message.content.split(shit,2);
 		actualmessage = talk[1].substring(talk[1].indexOf(" ")+1);
 		console.log(actualmessage);

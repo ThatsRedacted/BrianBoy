@@ -6,7 +6,7 @@ class TextCommand {
     }
 
     generateAction(prefix, message, TextCommand){
-      	 if (message.content.toLowerCase() === (prefix + this.name.toLowerCase()) && !(message.author.bot) && !(message.content.includes("powiedz"))) {
+      	 if (message.content.toLowerCase() === (prefix + this.name.toLowerCase()) && !(message.author.bot)) {
         	message.channel.send(this.work);
       	}
     }
