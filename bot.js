@@ -1,7 +1,11 @@
+//Shit needed for Discord
 const Discord = require("discord.js");
-const client = new Discord.Client();
-const TextCommand = require("./modules/commands.js");
 const config = require("./configs/config.json");
+const client = new Discord.Client();
+
+//Shit needed for text commands
+const TextCommand = require("./modules/commands.js");
+const PicCommand = require("./modules/pics.js")
 const pastas = require("./commands/pastas.json");
 const including = require("./commands/including.json")
 const prefix = config.prefix;
@@ -9,18 +13,28 @@ const shit = config.shit;
 var i;
 var talk;
 
+//Shit needed for pics
+var fs = require('fs');
+var pics = fs.readdirSync('./pics/');
+
 //Initialize flag
 let done = false;
 
 //Function responsible for generating help message
-function generateHelp(array, message, flag){
+function generateHelp(textHelp, picsHelp, message, flag){
 	if (message.content === (prefix + "help") && !(message.author.bot) && !(message.content.includes("powiedz"))) {
 		let string = "";
-		array.forEach(
+		let pictures = "";
+		textHelp.forEach(
 			function addString(value) {string += value.name + "\n";}
+		);
+		picsHelp.forEach(
+			function addString(value) {pictures += value.name + "\n";}
 		);
 		message.channel.send("**Text Commands:** \n");
 		message.channel.send(string);
+		message.channel.send("**Pics Commands:** \n");
+		message.channel.send(pictures);
 		return true;
 	}
 	else{
@@ -71,11 +85,17 @@ function rollDice(message, flag){
 	}
 }
 
-//All actions with prefix.
+//All text actions with prefix.
 let allActions = [];
 for (i = 0; i < pastas.pasta.length; i++) {
   allActions.push(new TextCommand(pastas.pasta[i].command, pastas.pasta[i].fulltext));
 	//console.log(pastas.pasta[i]);
+}
+
+//All pics actions with prefix
+let allPics = [];
+for (i = 0; i < pics.length; i++){
+	allPics.push(new PicCommand(pics[i].split(".")[0],pics[i]))
 }
 
 //All inclide and chances
@@ -97,7 +117,7 @@ client.on("message", (message) => {
 	done = false;
 
 	//List of all comands for prefix
-	done = generateHelp(allActions,message,done);
+	done = generateHelp(allActions,allPics,message,done);
 
 	//Message starting with > is going to be green because implying and original message will be removed
 	done = generateImplying(message,done);
@@ -112,9 +132,13 @@ client.on("message", (message) => {
 	allActions.forEach(
 		function(value){ if(done == false){value.generateAction(prefix,message)}}
 	);
+	//Checks for all pics
+	allPics.forEach(
+		function(value){ if(done == false){value.generateAction(prefix,message)}}
+	);
 	//Checks for all including
 	allInclude.forEach(
-			function(value){ if(done == false){done = value.generateInclude(message)}}
+		function(value){ if(done == false){done = value.generateInclude(message)}}
 	);
 
 
