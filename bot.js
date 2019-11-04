@@ -5,9 +5,10 @@ const client = new Discord.Client();
 
 //Shit needed for text commands
 const TextCommand = require("./modules/commands.js");
-const PicCommand = require("./modules/pics.js")
+const PicCommand = require("./modules/pics.js");
 const pastas = require("./commands/pastas.json");
-const including = require("./commands/including.json")
+const including = require("./commands/including.json");
+const responses = require("./commands/responses.json");
 const prefix = config.prefix;
 const shit = config.shit;
 var i;
@@ -77,8 +78,23 @@ function rollDice(message, flag){
 			message.channel.send((Math.floor((Math.random()*parseInt(dots))+1)));
 		}
 		else{
-			message.channel.send("Not an integer, fuck you.")
+			message.channel.send("Not an integer, fuck you.");
 		}
+	}
+	else{
+		return flag;
+	}
+}
+
+//Brian's fortune telling
+function askBrian(message, responses, flag){
+	if(message.content.toLowerCase().startsWith("brian,") && message.content.endsWith("?") && !(message.author.bot) && !(message.content.includes(shit)) && flag == false){
+		message.channel.send("Uh...");
+		setTimeout(function(){
+			message.channel.send(responses.responses[(Math.floor((Math.random()*responses.responses.length)+1))]);
+		}
+			, 1750);
+		return true;
 	}
 	else{
 		return flag;
@@ -127,6 +143,9 @@ client.on("message", (message) => {
 
 	//Rolling the dice
 	done = rollDice(message, done);
+
+	//Brian fortune telling
+	done = askBrian(message, responses, done)
 
 	//Checks all prefix pastass
 	allActions.forEach(
